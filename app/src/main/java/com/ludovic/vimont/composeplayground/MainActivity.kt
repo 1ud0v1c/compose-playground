@@ -12,11 +12,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ludovic.vimont.composeplayground.model.RandomCat
+import com.ludovic.vimont.composeplayground.network.CatWebService
 import com.ludovic.vimont.composeplayground.ui.theme.ComposePlaygroundTheme
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        GlobalScope.launch {
+            CatWebService.getCat().let {
+                println("cat: $it")
+            }
+        }
+
         setContent {
             ComposePlaygroundTheme {
                 Surface(color = MaterialTheme.colors.background) {

@@ -4,17 +4,14 @@ import com.ludovic.vimont.composeplayground.model.Cat
 import com.ludovic.vimont.composeplayground.util.RetrofitBuilder
 
 object CatWebService {
-    private val randomCatAPI: RandomCatAPI
-    private val catFactsAPI: CatFactsAPI
-
-    init {
-        randomCatAPI = RetrofitBuilder.buildRetrofitForAPI(RandomCatAPI.BASE_URL, RandomCatAPI::class.java)
-        catFactsAPI = RetrofitBuilder.buildRetrofitForAPI(CatFactsAPI.BASE_URL, CatFactsAPI::class.java)
-    }
+    private val randomCatAPI: RandomCatAPI =
+        RetrofitBuilder.buildAPI(RandomCatAPI.BASE_URL, RandomCatAPI::class.java)
+    private val catFactsAPI: CatFactsAPI =
+        RetrofitBuilder.buildAPI(CatFactsAPI.BASE_URL, CatFactsAPI::class.java)
 
     suspend fun getCat(): Cat {
-        val randomCatImage = randomCatAPI.getRandomCatImage().body()?.file ?: ""
-        val catFact = catFactsAPI.getFacts().body()?.random()?.text ?: ""
-        return Cat(randomCatImage, catFact)
+        val image = randomCatAPI.getRandomCatImage().body()?.file ?: ""
+        val facts = catFactsAPI.getFacts().body() ?: ArrayList()
+        return Cat(image, facts)
     }
 }

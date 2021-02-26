@@ -1,16 +1,19 @@
 package com.ludovic.vimont.composeplayground
 
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,9 +47,7 @@ fun ApplicationUI() {
     ComposePlaygroundTheme {
         Surface(color = MaterialTheme.colors.background) {
             Column(modifier = Modifier.fillMaxSize()) {
-                TopAppBar(title = {
-                    Text("ComposableCookBook")
-                })
+                CreateTopBar()
                 val image = "https://picsum.photos/seed/picsum/200/300"
                 val facts = listOf(
                     CatFacts("Test", Date().time.toString()),
@@ -58,6 +59,30 @@ fun ApplicationUI() {
             }
         }
     }
+}
+
+@Composable
+fun CreateTopBar() {
+    val context = LocalContext.current
+    
+    TopAppBar(title = {
+        Row(modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(
+                text = "Composable Playground",
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+            Button(onClick = {
+                    Toast.makeText(context, "Go to Settings screen", Toast.LENGTH_SHORT).show()
+                },
+                modifier = Modifier.align(Alignment.CenterVertically)) {
+                Image(
+                    painter = painterResource(R.drawable.ic_settings),
+                    contentDescription = null,
+                )
+            }
+        }
+    })
 }
 
 @Composable
